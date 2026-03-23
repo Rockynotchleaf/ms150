@@ -20,94 +20,76 @@
 
   <script type="text/babel">
     const { useState, useEffect } = React;
-
-    const STORAGE_KEY = "ms150-completed-days";
+    const STORAGE_KEY = "ms150-completed-days-v2";
 
     const weeks = [
       {
-        weekNum: 1, dates: "Mar 5 – Mar 11", theme: "Find Your Legs", totalMiles: 40,
+        weekNum: 1,
+        dates: "Mar 23 – Mar 29",
+        theme: "Get Back on the Bike",
+        warning: null,
+        totalMiles: 40,
         days: [
-          { day: "Thu", label: "Mar 5",  type: "ride",  trainer: true,  duration: "45 min", hr: "Z2",    desc: "Steady endurance spin — conversational pace" },
-          { day: "Fri", label: "Mar 6",  type: "rest",                                                    desc: "Rest" },
-          { day: "Sat", label: "Mar 7",  type: "ride",  trainer: false, miles: 25,                        desc: "Long outdoor ride — push a little past comfort" },
-          { day: "Sun", label: "Mar 8",  type: "ride",  trainer: false, miles: 15,                        desc: "Back-to-back intro — easy outdoor pace" },
-          { day: "Mon", label: "Mar 9",  type: "rest",                                                    desc: "Rest" },
-          { day: "Tue", label: "Mar 10", type: "ride",  trainer: true,  duration: "30 min", hr: "Z1",    desc: "Recovery spin — keep it very easy" },
-          { day: "Wed", label: "Mar 11", type: "cross",                                                   desc: "Cross-train 30–45 min (walk, swim, yoga)" },
+          { day: "Mon", label: "Mar 23", type: "rest",                                                     desc: "Rest — plan starts today, save it for tomorrow" },
+          { day: "Tue", label: "Mar 24", type: "ride", trainer: true,  duration: "40 min", hr: "Z2",       desc: "Shake out the cobwebs — steady endurance spin" },
+          { day: "Wed", label: "Mar 25", type: "cross",                                                    desc: "Cross-train 30–45 min (walk, swim, yoga)" },
+          { day: "Thu", label: "Mar 26", type: "ride", trainer: true,  duration: "30 min", hr: "Z1",       desc: "Easy recovery spin" },
+          { day: "Fri", label: "Mar 27", type: "rest",                                                     desc: "Rest — legs fresh for the weekend" },
+          { day: "Sat", label: "Mar 28", type: "ride", trainer: false, miles: 25,                          desc: "Long outdoor ride — get your 20-mile legs back" },
+          { day: "Sun", label: "Mar 29", type: "ride", trainer: false, miles: 15,                          desc: "Back-to-back intro — easy pace, just finish it" },
         ]
       },
       {
-        weekNum: 2, dates: "Mar 12 – Mar 18", theme: "Build the Base", totalMiles: 53,
+        weekNum: 2,
+        dates: "Mar 30 – Apr 5",
+        theme: "Push the Distance",
+        warning: null,
+        totalMiles: 60,
         days: [
-          { day: "Thu", label: "Mar 12", type: "rest",                                                    desc: "Rest" },
-          { day: "Fri", label: "Mar 13", type: "ride",  trainer: true,  duration: "45 min", hr: "Z2",    desc: "Steady endurance spin" },
-          { day: "Sat", label: "Mar 14", type: "ride",  trainer: false, miles: 35,                        desc: "Long ride — first real distance push" },
-          { day: "Sun", label: "Mar 15", type: "ride",  trainer: false, miles: 18,                        desc: "Back-to-back — easy pace, tired legs" },
-          { day: "Mon", label: "Mar 16", type: "rest",                                                    desc: "Rest" },
-          { day: "Tue", label: "Mar 17", type: "ride",  trainer: true,  duration: "30 min", hr: "Z1",    desc: "Easy recovery spin, focus on smooth pedaling" },
-          { day: "Wed", label: "Mar 18", type: "cross",                                                   desc: "Cross-train 45 min" },
+          { day: "Mon", label: "Mar 30", type: "rest",                                                     desc: "Rest" },
+          { day: "Tue", label: "Mar 31", type: "ride", trainer: true,  duration: "45 min", hr: "Z2",       desc: "Steady endurance spin — keep HR controlled" },
+          { day: "Wed", label: "Apr 1",  type: "cross",                                                    desc: "Cross-train 45 min" },
+          { day: "Thu", label: "Apr 2",  type: "ride", trainer: true,  duration: "35 min", hr: "Z2",       desc: "Moderate spin — build time in the saddle" },
+          { day: "Fri", label: "Apr 3",  type: "rest",                                                     desc: "Rest — big day tomorrow" },
+          { day: "Sat", label: "Apr 4",  type: "ride", trainer: false, miles: 40,                          desc: "🎯 Biggest ride yet — practice eating every 45 min" },
+          { day: "Sun", label: "Apr 5",  type: "ride", trainer: false, miles: 20,                          desc: "Back-to-back — tired legs, maintain pace" },
         ]
       },
       {
-        weekNum: 3, dates: "Mar 19 – Mar 25", theme: "Distance Confidence", totalMiles: 65,
+        weekNum: 3,
+        dates: "Apr 6 – Apr 12",
+        theme: "Peak Week",
+        warning: null,
+        totalMiles: 74,
         days: [
-          { day: "Thu", label: "Mar 19", type: "rest",                                                    desc: "Rest" },
-          { day: "Fri", label: "Mar 20", type: "ride",  trainer: true,  duration: "50 min", hr: "Z2–Z3", desc: "Tempo intervals: 10 min Z2 warm-up, 3×8 min Z3, cool down" },
-          { day: "Sat", label: "Mar 21", type: "ride",  trainer: false, miles: 45,                        desc: "Long ride — practice nutrition & hydration" },
-          { day: "Sun", label: "Mar 22", type: "ride",  trainer: false, miles: 20,                        desc: "Back-to-back — tired legs, steady pace" },
-          { day: "Mon", label: "Mar 23", type: "rest",                                                    desc: "Rest" },
-          { day: "Tue", label: "Mar 24", type: "ride",  trainer: true,  duration: "30 min", hr: "Z1",    desc: "Recovery spin — flush out the weekend" },
-          { day: "Wed", label: "Mar 25", type: "cross",                                                   desc: "Cross-train 45 min" },
+          { day: "Mon", label: "Apr 6",  type: "rest",                                                     desc: "Rest" },
+          { day: "Tue", label: "Apr 7",  type: "ride", trainer: true,  duration: "50 min", hr: "Z2–Z3",   desc: "Intervals: 10 min Z2, 3x8 min Z3, cool down" },
+          { day: "Wed", label: "Apr 8",  type: "cross",                                                    desc: "Cross-train 45 min — nothing hard" },
+          { day: "Thu", label: "Apr 9",  type: "ride", trainer: true,  duration: "30 min", hr: "Z1",       desc: "Easy recovery spin — flush out Tuesday" },
+          { day: "Fri", label: "Apr 10", type: "rest",                                                     desc: "Rest — save everything for Saturday" },
+          { day: "Sat", label: "Apr 11", type: "ride", trainer: false, miles: 52,                          desc: "🎯 Longest ride of training — dial in your race-day pace" },
+          { day: "Sun", label: "Apr 12", type: "ride", trainer: false, miles: 22,                          desc: "Back-to-back — this is your hardest day. Slow is fine." },
         ]
       },
       {
-        weekNum: 4, dates: "Mar 26 – Apr 1", theme: "Half Century Week", totalMiles: 80,
+        weekNum: 4,
+        dates: "Apr 13 – Apr 24",
+        theme: "Taper & Trust",
+        warning: "Do NOT add miles this week. Fitness is locked in — rest is free speed.",
+        totalMiles: 18,
         days: [
-          { day: "Thu", label: "Mar 26", type: "rest",                                                    desc: "Rest" },
-          { day: "Fri", label: "Mar 27", type: "ride",  trainer: true,  duration: "55 min", hr: "Z2",    desc: "Steady endurance spin — get loose for tomorrow" },
-          { day: "Sat", label: "Mar 28", type: "ride",  trainer: false, miles: 55,                        desc: "🎯 First metric century — big milestone!" },
-          { day: "Sun", label: "Mar 29", type: "ride",  trainer: false, miles: 25,                        desc: "Back-to-back — simulate day 2 legs" },
-          { day: "Mon", label: "Mar 30", type: "rest",                                                    desc: "Rest" },
-          { day: "Tue", label: "Mar 31", type: "ride",  trainer: true,  duration: "30 min", hr: "Z1",    desc: "Easy spin — active recovery" },
-          { day: "Wed", label: "Apr 1",  type: "cross",                                                   desc: "Cross-train 45 min" },
-        ]
-      },
-      {
-        weekNum: 5, dates: "Apr 2 – Apr 8", theme: "Century Prep", totalMiles: 95,
-        days: [
-          { day: "Thu", label: "Apr 2",  type: "rest",                                                    desc: "Rest" },
-          { day: "Fri", label: "Apr 3",  type: "ride",  trainer: true,  duration: "60 min", hr: "Z2–Z3", desc: "Tempo intervals: 10 min Z2, 4×8 min Z3, cool down" },
-          { day: "Sat", label: "Apr 4",  type: "ride",  trainer: false, miles: 65,                        desc: "Long ride — dial in your pace strategy" },
-          { day: "Sun", label: "Apr 5",  type: "ride",  trainer: false, miles: 30,                        desc: "Back-to-back — focus on fueling" },
-          { day: "Mon", label: "Apr 6",  type: "rest",                                                    desc: "Rest" },
-          { day: "Tue", label: "Apr 7",  type: "ride",  trainer: true,  duration: "30 min", hr: "Z1",    desc: "Easy recovery spin" },
-          { day: "Wed", label: "Apr 8",  type: "cross",                                                   desc: "Cross-train 45 min" },
-        ]
-      },
-      {
-        weekNum: 6, dates: "Apr 9 – Apr 15", theme: "Peak Week", totalMiles: 105,
-        days: [
-          { day: "Thu", label: "Apr 9",  type: "rest",                                                    desc: "Rest — you've earned it" },
-          { day: "Fri", label: "Apr 10", type: "ride",  trainer: true,  duration: "45 min", hr: "Z2",    desc: "Steady spin — save legs for Saturday" },
-          { day: "Sat", label: "Apr 11", type: "ride",  trainer: false, miles: 75,                        desc: "🎯 Full Day 1 simulation — 75 miles!" },
-          { day: "Sun", label: "Apr 12", type: "ride",  trainer: false, miles: 30,                        desc: "Back-to-back — tired legs, stay strong" },
-          { day: "Mon", label: "Apr 13", type: "rest",                                                    desc: "Rest" },
-          { day: "Tue", label: "Apr 14", type: "cross",                                                   desc: "Light cross-train only — no hard effort" },
-          { day: "Wed", label: "Apr 15", type: "rest",                                                    desc: "Rest" },
-        ]
-      },
-      {
-        weekNum: 7, dates: "Apr 16 – Apr 24", theme: "Taper & Rest", totalMiles: 40,
-        days: [
-          { day: "Thu", label: "Apr 16", type: "rest",                                                    desc: "Rest" },
-          { day: "Fri", label: "Apr 17", type: "ride",  trainer: true,  duration: "30 min", hr: "Z1–Z2", desc: "Easy spin — keep legs moving, nothing hard" },
-          { day: "Sat", label: "Apr 18", type: "ride",  trainer: false, miles: 20,                        desc: "Short outdoor shakeout — feel good, no heroics" },
-          { day: "Sun", label: "Apr 19", type: "rest",                                                    desc: "Rest" },
-          { day: "Mon", label: "Apr 20", type: "ride",  trainer: true,  duration: "20 min", hr: "Z1",    desc: "Very easy spin — just loosen the legs" },
-          { day: "Tue", label: "Apr 21", type: "rest",                                                    desc: "Rest" },
-          { day: "Wed", label: "Apr 22", type: "ride",  trainer: true,  duration: "15 min", hr: "Z1",    desc: "10–15 min shakeout only — keep it super easy" },
-          { day: "Thu", label: "Apr 23", type: "rest",                                                    desc: "Rest — gear prep & sleep" },
-          { day: "Fri", label: "Apr 24", type: "rest",                                                    desc: "🌙 Final rest day — hydrate & sleep well" },
+          { day: "Mon", label: "Apr 13", type: "rest",                                                     desc: "Rest — you've done the work" },
+          { day: "Tue", label: "Apr 14", type: "ride", trainer: true,  duration: "30 min", hr: "Z1–Z2",   desc: "Easy spin — keep the legs moving, nothing more" },
+          { day: "Wed", label: "Apr 15", type: "rest",                                                     desc: "Rest" },
+          { day: "Thu", label: "Apr 16", type: "ride", trainer: true,  duration: "20 min", hr: "Z1",       desc: "Very easy spin — just loosen up" },
+          { day: "Fri", label: "Apr 17", type: "rest",                                                     desc: "Rest" },
+          { day: "Sat", label: "Apr 18", type: "ride", trainer: false, miles: 18,                          desc: "Short outdoor shakeout — feel good, no heroics" },
+          { day: "Sun", label: "Apr 19", type: "rest",                                                     desc: "Rest" },
+          { day: "Mon", label: "Apr 20", type: "ride", trainer: true,  duration: "15 min", hr: "Z1",       desc: "10-15 min spin only — keep legs loose" },
+          { day: "Tue", label: "Apr 21", type: "rest",                                                     desc: "Rest" },
+          { day: "Wed", label: "Apr 22", type: "rest",                                                     desc: "Rest — start hydrating aggressively today" },
+          { day: "Thu", label: "Apr 23", type: "rest",                                                     desc: "Rest — check gear, pack bags, sleep early" },
+          { day: "Fri", label: "Apr 24", type: "rest",                                                     desc: "🌙 Final rest day — hydrate, eat well, sleep" },
         ]
       }
     ];
@@ -141,14 +123,18 @@
       };
 
       const resetProgress = () => {
+        if (!confirm("Reset all progress?")) return;
         setCompletedDays({});
         try { localStorage.removeItem(STORAGE_KEY); } catch (_) {}
       };
 
-      const totalMilesPlanned = weeks.reduce((sum, w) =>
-        sum + w.days.reduce((s, d) => s + (d.miles || 0), 0), 0);
       const totalDays = weeks.reduce((sum, w) => sum + w.days.length, 0);
       const completedCount = Object.values(completedDays).filter(Boolean).length;
+
+      const eventDate = new Date("2026-04-25");
+      const today = new Date();
+      today.setHours(0,0,0,0);
+      const daysLeft = Math.ceil((eventDate - today) / (1000 * 60 * 60 * 24));
 
       if (!loaded) return (
         <div style={{ background: "#0f1117", minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -164,34 +150,32 @@
             <div style={{ maxWidth: 800, margin: "0 auto" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
                 <span style={{ fontSize: 22 }}>🚴</span>
-                <span style={{ fontFamily: "monospace", fontSize: 11, letterSpacing: "0.2em", color: "#f97316", textTransform: "uppercase", fontWeight: 700 }}>MS-150 · 2026</span>
+                <span style={{ fontFamily: "monospace", fontSize: 11, letterSpacing: "0.2em", color: "#f97316", textTransform: "uppercase", fontWeight: 700 }}>MS-150 · 2026 · Compressed Plan</span>
               </div>
-              <h1 style={{ fontSize: "clamp(28px, 5vw, 44px)", fontWeight: 900, lineHeight: 1.1, letterSpacing: "-0.02em", margin: "0 0 6px", color: "#f1f5f9" }}>
-                7-Week Training Plan
+              <h1 style={{ fontSize: "clamp(26px, 5vw, 42px)", fontWeight: 900, lineHeight: 1.1, letterSpacing: "-0.02em", margin: "0 0 6px", color: "#f1f5f9" }}>
+                4-Week Training Plan
               </h1>
               <p style={{ color: "#64748b", fontSize: 14, margin: 0, fontFamily: "monospace" }}>
-                Mar 5 → Apr 24 · Event: April 25–26 (75 mi each day)
+                Mar 23 to Apr 24 · Event: April 25-26 (75 mi each day)
               </p>
 
-              {/* Stats */}
-              <div style={{ display: "flex", gap: 16, marginTop: 24, flexWrap: "wrap", alignItems: "flex-end" }}>
+              <div style={{ display: "flex", gap: 14, marginTop: 24, flexWrap: "wrap", alignItems: "flex-end" }}>
                 {[
-                  { label: "Weeks", val: "7" },
-                  { label: "Outdoor Miles", val: totalMilesPlanned },
-                  { label: "Starting Fitness", val: "20 mi" },
+                  { label: "Weeks Left", val: "4" },
+                  { label: "Days to Event", val: daysLeft },
+                  { label: "Peak Long Ride", val: "52 mi" },
                   { label: "Goal", val: "75 + 75 mi" },
                 ].map(s => (
-                  <div key={s.label} style={{ background: "#1a1f2e", border: "1px solid #1e293b", borderRadius: 8, padding: "10px 18px" }}>
+                  <div key={s.label} style={{ background: "#1a1f2e", border: "1px solid #1e293b", borderRadius: 8, padding: "10px 16px" }}>
                     <div style={{ fontSize: 11, color: "#475569", letterSpacing: "0.1em", textTransform: "uppercase", fontFamily: "monospace", marginBottom: 2 }}>{s.label}</div>
-                    <div style={{ fontSize: 22, fontWeight: 800, color: "#f1f5f9" }}>{s.val}</div>
+                    <div style={{ fontSize: 22, fontWeight: 800, color: s.label === "Days to Event" && daysLeft <= 7 ? "#ef4444" : "#f1f5f9" }}>{s.val}</div>
                   </div>
                 ))}
 
-                {/* Progress bar */}
-                <div style={{ flex: 1, minWidth: 200 }}>
+                <div style={{ flex: 1, minWidth: 180 }}>
                   <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
                     <span style={{ fontSize: 11, color: "#475569", letterSpacing: "0.1em", textTransform: "uppercase", fontFamily: "monospace" }}>
-                      Progress — {completedCount}/{totalDays} days
+                      {completedCount}/{totalDays} days done
                     </span>
                     {completedCount > 0 && (
                       <button onClick={resetProgress} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 10, color: "#475569", fontFamily: "monospace", textDecoration: "underline", padding: 0 }}>
@@ -204,12 +188,15 @@
                   </div>
                 </div>
               </div>
+
+              <div style={{ marginTop: 20, padding: "12px 16px", background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.2)", borderRadius: 8, fontSize: 13, color: "#fca5a5", fontFamily: "monospace", lineHeight: 1.6 }}>
+                ⚡ <strong>Compressed plan:</strong> Peak ride is 52 mi, not 75. The SAG wagon has your back on day 1. Focus on fueling, pacing, and surviving day 2.
+              </div>
             </div>
           </div>
 
           <div style={{ maxWidth: 800, margin: "0 auto", padding: "24px 16px" }}>
 
-            {/* Week tabs */}
             <div style={{ display: "flex", gap: 8, marginBottom: 24, overflowX: "auto", paddingBottom: 4 }}>
               {weeks.map((w, i) => (
                 <button key={i} onClick={() => setActiveWeek(i)} style={{
@@ -224,22 +211,26 @@
               ))}
             </div>
 
-            {/* Week card */}
-            <div style={{ background: "#1a1f2e", border: "1px solid #1e293b", borderRadius: 12, overflow: "hidden", marginBottom: 20 }}>
+            {week.warning && (
+              <div style={{ marginBottom: 16, padding: "10px 16px", background: "rgba(249,115,22,0.08)", border: "1px solid rgba(249,115,22,0.25)", borderRadius: 8, fontSize: 13, color: "#fdba74", fontFamily: "monospace" }}>
+                ⚠️ {week.warning}
+              </div>
+            )}
 
-              {/* Week header */}
+            <div style={{ background: "#1a1f2e", border: "1px solid #1e293b", borderRadius: 12, overflow: "hidden", marginBottom: 20 }}>
               <div style={{ padding: "20px 24px", borderBottom: "1px solid #1e293b", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12, background: "linear-gradient(90deg, #1e293b 0%, #1a1f2e 100%)" }}>
                 <div>
                   <div style={{ fontFamily: "monospace", fontSize: 11, color: "#f97316", letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: 4 }}>Week {week.weekNum} · {week.dates}</div>
                   <div style={{ fontSize: 22, fontWeight: 800, color: "#f1f5f9" }}>{week.theme}</div>
                 </div>
-                <div style={{ background: "#0f1117", border: "1px solid rgba(249,115,22,0.12)", borderRadius: 8, padding: "8px 16px", textAlign: "center" }}>
-                  <div style={{ fontSize: 11, color: "#64748b", fontFamily: "monospace" }}>WEEKEND MILES</div>
-                  <div style={{ fontSize: 26, fontWeight: 900, color: "#f97316" }}>{week.totalMiles}</div>
-                </div>
+                {week.totalMiles > 0 && (
+                  <div style={{ background: "#0f1117", border: "1px solid rgba(249,115,22,0.12)", borderRadius: 8, padding: "8px 16px", textAlign: "center" }}>
+                    <div style={{ fontSize: 11, color: "#64748b", fontFamily: "monospace" }}>OUTDOOR MILES</div>
+                    <div style={{ fontSize: 26, fontWeight: 900, color: "#f97316" }}>{week.totalMiles}</div>
+                  </div>
+                )}
               </div>
 
-              {/* Days */}
               {week.days.map((d, di) => {
                 const cfg = typeConfig[d.type];
                 const key = `${activeWeek}-${di}`;
@@ -251,29 +242,25 @@
                     style={{
                       display: "flex", alignItems: "center", gap: 14, padding: "14px 20px",
                       borderBottom: di < week.days.length - 1 ? "1px solid #0f1117" : "none",
-                      cursor: "pointer", background: done ? "#0d1a0d" : "transparent", opacity: done ? 0.7 : 1,
-                      transition: "background 0.15s",
+                      cursor: "pointer", background: done ? "#0d1a0d" : "transparent",
+                      opacity: done ? 0.65 : 1, transition: "background 0.15s",
                     }}
                     onMouseEnter={e => { if (!done) e.currentTarget.style.background = "#0f1117"; }}
                     onMouseLeave={e => { if (!done) e.currentTarget.style.background = "transparent"; }}
                   >
-                    {/* Checkbox */}
                     <div style={{ width: 22, height: 22, borderRadius: 4, border: done ? "2px solid #22c55e" : "2px solid #334155", background: done ? "rgba(34,197,94,0.12)" : "transparent", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 13, color: "#22c55e" }}>
                       {done ? "✓" : ""}
                     </div>
 
-                    {/* Day */}
                     <div style={{ width: 38, flexShrink: 0 }}>
                       <div style={{ fontWeight: 800, fontSize: 14, color: "#f1f5f9", fontFamily: "monospace" }}>{d.day}</div>
                       <div style={{ fontSize: 10, color: "#475569", fontFamily: "monospace" }}>{d.label}</div>
                     </div>
 
-                    {/* Badge */}
                     <div style={{ flexShrink: 0, width: 50, textAlign: "center", padding: "2px 4px", borderRadius: 4, fontSize: 10, fontWeight: 800, letterSpacing: "0.1em", fontFamily: "monospace", color: cfg.dot, border: `1px solid ${cfg.dot}40`, background: `${cfg.dot}15` }}>
                       {cfg.label}
                     </div>
 
-                    {/* Metric */}
                     {d.trainer === true ? (
                       <div style={{ flexShrink: 0, width: 80, lineHeight: 1.3 }}>
                         <div style={{ fontWeight: 900, fontSize: 13, color: "#f97316", fontFamily: "monospace" }}>{d.duration}</div>
@@ -285,7 +272,6 @@
                       <div style={{ width: 80, flexShrink: 0 }} />
                     )}
 
-                    {/* Desc */}
                     <div style={{ fontSize: 13, color: done ? "#475569" : "#94a3b8", flex: 1, textDecoration: done ? "line-through" : "none" }}>
                       {d.desc}
                     </div>
@@ -294,13 +280,12 @@
               })}
             </div>
 
-            {/* HR Zone tips */}
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12, marginBottom: 20 }}>
               {[
-                { icon: "💚", title: "Z1 — Recovery",  tip: "50–65% max HR. Full conversation, barely breathing harder. Trainer recovery days." },
-                { icon: "🟡", title: "Z2 — Endurance", tip: "65–75% max HR. Can speak in full sentences. Base trainer pace & long ride effort." },
-                { icon: "🟠", title: "Z3 — Tempo",     tip: "75–85% max HR. A few words only. Used in interval blocks on Friday trainer sessions." },
-                { icon: "💧", title: "Fueling",        tip: "Eat every 45–60 min on long rides. Train your gut now, not on race day." },
+                { icon: "💚", title: "Z1 — Recovery",  tip: "50-65% max HR. Full conversation. Trainer recovery and taper days." },
+                { icon: "🟡", title: "Z2 — Endurance", tip: "65-75% max HR. Full sentences. Your base trainer pace and outdoor effort." },
+                { icon: "🟠", title: "Z3 — Tempo",     tip: "75-85% max HR. A few words only. Week 3 interval blocks only." },
+                { icon: "💧", title: "Fueling",        tip: "Eat every 45 min on rides over 90 min. Don't wait until you're hungry." },
               ].map(t => (
                 <div key={t.title} style={{ background: "#1a1f2e", border: "1px solid #1e293b", borderRadius: 8, padding: "14px 16px" }}>
                   <div style={{ fontSize: 18, marginBottom: 6 }}>{t.icon}</div>
@@ -310,14 +295,12 @@
               ))}
             </div>
 
-            {/* Event banner */}
             <div style={{ background: "linear-gradient(135deg, #1a1f2e, #0f1a0d)", border: "1px solid rgba(34,197,94,0.18)", borderRadius: 12, padding: "20px 24px", textAlign: "center" }}>
               <div style={{ fontSize: 13, color: "#22c55e", fontFamily: "monospace", letterSpacing: "0.15em", marginBottom: 8 }}>🚩 EVENT DAY</div>
-              <div style={{ fontSize: 28, fontWeight: 900, color: "#f1f5f9" }}>April 25–26, 2026</div>
-              <div style={{ fontSize: 13, color: "#64748b", marginTop: 6 }}>Day 1: 75 miles &nbsp;·&nbsp; Day 2: 75 miles &nbsp;·&nbsp; You've got this.</div>
+              <div style={{ fontSize: 28, fontWeight: 900, color: "#f1f5f9" }}>April 25-26, 2026</div>
+              <div style={{ fontSize: 13, color: "#64748b", marginTop: 6 }}>Day 1: 75 miles · Day 2: 75 miles · SAG wagon is your friend.</div>
             </div>
 
-            {/* Legend */}
             <div style={{ display: "flex", gap: 16, marginTop: 16, justifyContent: "center", flexWrap: "wrap" }}>
               {Object.entries(typeConfig).map(([, cfg]) => (
                 <div key={cfg.label} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "#64748b" }}>
@@ -330,7 +313,6 @@
                 <span style={{ fontFamily: "monospace" }}>DONE</span>
               </div>
             </div>
-
           </div>
         </div>
       );
